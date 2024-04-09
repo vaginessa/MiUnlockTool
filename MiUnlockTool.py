@@ -14,7 +14,7 @@ for lib in ['Cryptodome', 'urllib3', 'requests']:
         os.system('yes | pkg update' if "com.termux" in os.getenv("PREFIX", "") else '')
         os.system(f'pip install pycryptodomex' if lib == 'Cryptodome' else f'pip install {lib}')
 
-import re, requests, json, hmac, random, binascii, urllib, hashlib, io, urllib.parse, time, sys, urllib.request, zipfile, webbrowser, platform, subprocess, shutil
+import re, requests, json, hmac, random, binascii, urllib, hashlib, io, urllib.parse, time, sys, urllib.request, zipfile, webbrowser, platform, subprocess, shutil, stat
 from urllib3.util.url import Url
 from base64 import b64encode, b64decode
 from Cryptodome.Cipher import AES
@@ -27,7 +27,7 @@ def dw(s):
     fp = os.path.join(cd, os.path.basename(url))    
     urllib.request.urlretrieve(url, fp)    
     with zipfile.ZipFile(fp, 'r') as zip_ref:
-        zip_ref.extractall(cd)   
+        zip_ref.extractall(cd)
     os.remove(fp)
     print(notice)
 
@@ -54,6 +54,9 @@ if s == "Linux" and os.path.exists("/data/data/com.termux"):
         os.system(f"chmod +x {up}")
         print(ttp)
         exit()
+    if not os.path.exists("/data/data/com.termux.api"):
+        print("\nThe com.termux.api application is not installed on the device. Please install it first : \n\nhttps://github.com/termux/termux-api/releases/download/v0.50.1/termux-api_v0.50.1+github-debug.apk")
+        exit()
     cmd = "fastboot"
     datafile = "/sdcard/Download/data.json"
     browserp = "t"
@@ -63,6 +66,9 @@ else:
     if not os.path.exists(fp):
         dw(s)
     cmd = os.path.join(fp, "fastboot")
+    if s == "Linux" or s == "Darwin":
+        st = os.stat(cmd)
+        os.chmod(cmd, st.st_mode | stat.S_IEXEC)
     datafile = os.path.join(dir, "data.json")
     browserp = "wlm"
 
@@ -237,7 +243,7 @@ elif "code" in r and r["code"] == 10013:
     print(f"\n{r['descEN']}\n\nhttps://github.com/offici5l/MiUnlockTool/issues/12")
 elif "code" in r and r["code"] == 20036:
     print(f"\n\033[92m{r['descEN']}\033[0m")
-elif "code" in r and r["code"] in {20041, 20031, 20033, 20030}:
+elif "code" in r and r["code"] in {20041, 20031, 20033, 20030, 20035}:
     print(f"\ncode {r['code']}\n\n{r['descEN']}")
 else:
     for key, value in r.items():
