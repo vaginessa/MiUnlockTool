@@ -37,3 +37,5 @@ curl https://raw.githubusercontent.com/offici5l/MiUnlockTool/main/.install | bas
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 
 </div>
+
+### Redmi Note 8T willow: fired '''fastboot flashing unlock_critical''' and it fucking worked!!, after that i used this tool - unlocked with no waiting time!
